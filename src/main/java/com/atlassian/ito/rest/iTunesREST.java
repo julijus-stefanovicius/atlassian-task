@@ -5,6 +5,8 @@ import com.atlassian.plugins.rest.common.security.AnonymousAllowed;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.net.URI;
+
 
 /**
  * A resource of message.
@@ -14,33 +16,15 @@ public class iTunesREST {
 
     @GET
     @AnonymousAllowed
-    @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
-    // public Response getMessage()
-    // {
-    //    return Response.ok(new iTunesRESTModel("Hello World")).build();
-    // }
-    public Response getMessage(@QueryParam("key") String key)
-    {
-        if(key!=null)
-            return Response.ok(new iTunesRESTModel(key, getMessageFromKey(key))).build();
+    @Produces({MediaType.APPLICATION_JSON})
+    public Response getMessage(@QueryParam("name") String key) {
+
+        if(key!=null) {
+            return Response.temporaryRedirect(URI.create("https://itunes.apple.com/search?entity=allArtist&term="
+                    + key)).build();
+        }
         else
-            return Response.ok(new iTunesRESTModel("default","Hello World")).build();
-    }
-
-    @GET
-    @AnonymousAllowed
-    @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
-    @Path("/{key}")
-    public Response getMessageFromPath(@PathParam("key") String key)
-    {
-    return Response.ok(new iTunesRESTModel(key, getMessageFromKey(key))).build();
-    }
-
-    private String getMessageFromKey(String key) {
-    // In reality, this data would come from a database or some component
-    // within the hosting application, for demonstration purpopses I will
-    // just return the key
-    return key;
+            return Response.ok(new iTunesRESTModel("error","Please enter the artist name")).build();
     }
 
 }
