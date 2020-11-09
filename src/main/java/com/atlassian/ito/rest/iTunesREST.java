@@ -78,9 +78,9 @@ public class iTunesREST {
         invocationBuilder.accept(MediaType.APPLICATION_JSON);
 
         Response response2 = invocationBuilder.get();
-        System.out.println(response.getEntity());
+        System.out.println(response2.getEntity());
         if (response2.getStatus() == 200) {
-            System.out.println(response.getEntity());
+            System.out.println(response2.getEntity());
         } else {
             System.out.println("ERROR! " + response2.getStatus());
         }
